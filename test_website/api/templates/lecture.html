@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'jquery-ui-1.12.1/jquery-ui.css' %}">
+{% endblock head %}
+{% block body %}
+    {% if user.is_authenticated %}
+    <div class="lectures">
+        <h4 class="l-title">Дәрістер тізімі</h4>  
+        <div class="tareas">
+            <div class="wrap">
+                {% for lecture in lectures %}
+                <ul class="lista" id="lista">
+                    <li><a class="l-list" href="{% url 'lecturedetails' pk=lecture.id %}">{{lecture.title}}</a><br></li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>      
+    </div>
+    {% else %}
+    <div class="www">
+        <h2 class="welcome">Қош келдіңіз! Жүйеге кіріңіз</h2>
+    </div>
+    {% endif %}
+{% endblock %}
+

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />   
+{% endblock head %}
+{% block body %}
+    <div>
+        <form action="" id="test">
+            {% for test in tests %}
+                    <ul><li><h4>{{test.question}}</h4></li></ul>
+                    <div class="questions">
+                        <p class="check-hidden">{{test.correct_answer}}</p>
+                        <input class="check" type="checkbox" value="{{test.variant_a}}" name="variant1">{{test.variant_a}}<br>
+                        <input class="check" type="checkbox" value="{{test.variant_b}}" name="variant2">{{test.variant_b}}<br>
+                        <input class="check" type="checkbox" value="{{test.variant_c}}" name="variant3">{{test.variant_c}}<br>
+                    </div>    
+            {% endfor %}
+            <button class="modal-trigger b-check" data-modal="modal-name" id="check" type="submit"><a href="">Тексеру</a></button>
+        </form>
+    </div>
+
+    <div class="modal" id="modal-name">
+      <div class="modal-sandbox"></div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="close-modal">
+               <a href="{% url 'lecture' %}">&#10006;</a>
+             </div> 
+          <h1 class="final">Сіздің жинаған ұпайыңыз: </h1>
+        </div>
+        <div class="modal-body">
+         <a class="score"></a>
+         <button class="b-again" id="check" type="submit">
+             <a href="">Қайта тапсыру</a></button>
+        </div>
+
+      </div>
+    </div>
+    
+    <script>
+        $(document).ready(function(){
+            $("form").submit(function(){
+                if ($('input:checkbox').filter(':checked').length < 1){
+                alert("Check at least one Game!");
+                return false;
+                }
+            });
+        });
+        $('p').attr("hidden", true);
+        var correct_answer = [];
+        let count=0;
+        $('p').map(function() {
+            correct_answer.push($(this).text());
+        });
+          
+        $('#check').on('click', function (e) {
+            e.preventDefault();
+            var checkboxValues = [];
+            $('input[class=check]:checked').map(function() {
+                checkboxValues.push($(this).val());
+            });
+     
+            for (var i = 0; i < checkboxValues.length; i++) {
+                if (correct_answer.indexOf(checkboxValues[i]) != -1) {
+                    count = count+1;
+                }
+            }
+            $('a.score').text(count);
+        });
+        $(".modal-trigger").click(function(e){
+            e.preventDefault();
+            dataModal = $(this).attr("data-modal");
+            $("#" + dataModal).css({"display":"block"});
+        });
+    </script>    
+{% endblock %}
+
+   

@@ -1,0 +1,19 @@
+
+
+
+{% block body %}
+
+    <h1>Регистрация</h1>
+   
+    {% if error %}
+        <h4 class="text-danger">{{ error }}</h4>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" class="btn btn-primary">
+    </form>
+
+{% endblock %}
