@@ -44,7 +44,7 @@
         $(document).ready(function(){
             $("form").submit(function(){
                 if ($('input:checkbox').filter(':checked').length < 1){
-                alert("Check at least one Game!");
+                alert("Кем дегенде бір сұраққа жауап беріңіз!");
                 return false;
                 }
             });
@@ -56,25 +56,6 @@
             correct_answer.push($(this).text());
         });
           
-        $('#check').on('click', function (e) {
-            e.preventDefault();
-            var checkboxValues = [];
-            $('input[class=check]:checked').map(function() {
-                checkboxValues.push($(this).val());
-            });
-     
-            for (var i = 0; i < checkboxValues.length; i++) {
-                if (correct_answer.indexOf(checkboxValues[i]) != -1) {
-                    count = count+1;
-                }
-            }
-            $('a.score').text(count);
-        });
-        $(".modal-trigger").click(function(e){
-            e.preventDefault();
-            dataModal = $(this).attr("data-modal");
-            $("#" + dataModal).css({"display":"block"});
-        });
     </script>    
 {% endblock %}
 
